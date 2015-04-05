@@ -1,0 +1,41 @@
+---
+- hosts: rabbits
+  roles:
+    - role: ansible-rabbitmq
+      rabbitmq_create_cluster: True
+      rabbitmq_cluster_master: devrmq01
+      rabbitmq_web_port: 8080
+      
+      rabbitmq_vhosts:
+        - /devedm01
+        - /devedm02
+      
+      rabbitmq_users:
+        - user: admin
+          password: admin
+          vhost: /
+          configure_priv: .*
+          read_priv: .*
+          write_priv: .*
+          tags: administrator
+          
+        - user: devedm01
+          password: devedm01
+          vhost: /devedm01
+          configure_priv: .*
+          read_priv: .*
+          write_priv: .*
+          tags: administrator
+          
+        - user: devedm02
+          password: devedm02
+          vhost: /devedm02
+          configure_priv: .*
+          read_priv: .*
+          write_priv: .*
+          tags: administrator
+    
+      # Users to remove
+      rabbitmq_users_removed:
+        - guest
+

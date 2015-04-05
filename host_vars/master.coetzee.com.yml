@@ -1,0 +1,5 @@
+---
+# file: host_vars/master.coetzee.com
+nexus_version: 2.11.2-06
+sudo: yes
+nexus_port: 8080

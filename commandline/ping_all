@@ -1,0 +1,7 @@
+#-m - module
+#-s - use sudo
+#-k - ask for password - don't use key authentication
+#-u - connect as user
+
+
+ansible all -m ping -s -k -u vagrant

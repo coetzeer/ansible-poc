@@ -1,0 +1,8 @@
+---
+- hosts: master.coetzee.com
+  roles:
+    - role: playlist.java
+      java_packages:
+      - java-1.8.0-openjdk
+      java_cleanup: False
+    - role: ansible-nexus

@@ -1,0 +1,12 @@
+---
+- hosts: zookeepers
+  roles:
+    - role: playlist.java
+      java_packages:
+      - java-1.8.0-openjdk
+      java_cleanup: False
+    - role: ansible-zookeeper
+      exhibitor_client_port: 2080
+      exhibitor_connect_port: 1080
+      exhibitor_election_port: 3080
+      exhibitor_servers_spec: "1:devzookeep01.coetzee.com,2:devzookeep02.coetzee.com,3:devzookeep03.coetzee.com"
