@@ -1,0 +1,48 @@
+#
+# Pulling out all the stops with cluster of seven Vagrant boxes.
+#
+domain   = 'coetzee.com'
+#box      =  'coetzee/centos7'
+box		=	'geerlingguy/centos7'
+#url		=	'file:///E:/git/packer/packer-centos-7/builds/virtualbox-centos70.box'
+
+nodes = [
+  { :hostname => 'master',          :ip => '192.168.3.42', :box => box, :ram => 512 },
+  { :hostname => 'devstack01',       :ip => '192.168.3.43', :box => box, :ram => 1024  },
+  { :hostname => 'devstack02',      :ip => '192.168.3.44', :box => box, :ram => 1024  },
+  { :hostname => 'devjobs1',      :ip => '192.168.3.45', :box => box, :ram => 1024  },
+  { :hostname => 'devjobs2',    :ip => '192.168.3.46', :box => box, :ram => 1024  },
+  { :hostname => 'devjobs3',    :ip => '192.168.3.47', :box => box, :ram => 1024  },
+  { :hostname => 'devedm01',     :ip => '192.168.3.48', :box => box, :ram => 1024  },
+  { :hostname => 'devedm02',     :ip => '192.168.3.49', :box => box, :ram => 1024  },
+  { :hostname => 'devzookeep01',     :ip => '192.168.3.50', :box => box, :ram => 1024  },
+  { :hostname => 'devzookeep02',     :ip => '192.168.3.51', :box => box, :ram => 1024  },
+  { :hostname => 'devzookeep03',     :ip => '192.168.3.52', :box => box, :ram => 1024  },
+  { :hostname => 'devrmq01',     :ip => '192.168.3.53', :box => box, :ram => 1024  },
+  { :hostname => 'devrmq02',     :ip => '192.168.3.54', :box => box, :ram => 1024  },
+]
+
+Vagrant.configure("2") do |config|
+  
+  nodes.each do |node|
+    config.vm.define node[:hostname] do |node_config|
+	      #node_config.vm.box = node[:box]
+		  node_config.vm.box = node[:box]
+	      #node_config.vm.box_url = url
+	      node_config.vm.host_name = node[:hostname] + '.' + domain
+	      node_config.vm.network "private_network", ip: node[:ip]
+	      node_config.vm.boot_timeout = 600	
+	     	node_config.vm.provider "virtualbox" do |v|
+			  v.memory = node[:ram]
+			  v.cpus = 1
+
+			end
+		  
+
+		 config.vm.provision "shell", path: "provision.sh"
+
+      
+    end
+  end
+  
+end
